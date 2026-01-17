@@ -12,6 +12,7 @@ const [error, setError] = useState(null);
 const [datavideo, setDatavideo]= useState({})
 const [playtrailer, setPlaytrailer] = useState(false) 
 const [datareparto, setDatareparto] = useState({});
+ const [dataproduccion, setdProduccion] = useState({});
 const fecha = new Date(datos.release_date); // Reemplaza 'datos.release_date' con la variable que contiene la fecha
 const dia = fecha.getDate();
 const mes = fecha.getMonth() + 1; // Los meses en JavaScript son indexados desde 0, por lo que se suma 1 al mes
@@ -97,6 +98,7 @@ let titulo = params.titulo
 
 
     const ruta = "https://image.tmdb.org/t/p/original/";
+    const rutaPel ="/peliculas/";
 
     const renderTrailer=()=>{
        
@@ -114,8 +116,13 @@ let titulo = params.titulo
     }
 
   return (
-    <div className="banner" style={{backgroundImage:"url(" + ruta + datos.backdrop_path + ")"}}>
-        <div className="sombra">
+    <>
+       
+        <div className="banner" style={{backgroundImage:"url(" + ruta + datos.backdrop_path + ")"}}>
+           
+            {playtrailer && trailerkey && trailerkey !== "" ?  renderTrailer()  : null} 
+
+            <div className="sombra">
                 <h1 className="pt-5 display-1 banner_titulo">{datos.title || datos.name}</h1>
                 <h5 className="pt-5 display-4 banner_titulo">{datos.tagline}</h5>
                 
@@ -135,15 +142,70 @@ let titulo = params.titulo
                 <p className="banner_descripcion">{datos.overview}</p>
 
                 <div className="my-3">
-                    
+                    { trailerkey && (
+                        <button className="btn btn-danger me-2 "  onClick={()=>setPlaytrailer(true)}>Play</button>
+                    )
+                    }
                     <Link to="/inicio" href="#"  className="btn btn-success ">Regresar</Link>
                 </div> 
                 {datos.release_date && (
                     <h5 className="py-3">Fecha de Lanzamiento: {fechaFormateada} </h5>
                 )}
+            </div> 
+        </div>
+
+   
+
+        <section className="container bg-dark py-5">
+            <h3 className="text-center text-white py-4">Reparto</h3>
+            <div className="row row-cols-lg-6 m-2">
+                {Array.isArray(datareparto) && datareparto.map((item,index) => (
+                    item.profile_path && item.profile_path !== "" ? (
+                        <div className="col-6 col-sm-6 col-md-4 col-ls-3 col-xl-2 mb-4" key={index}>
+                          <div className="card resaltar text-center h-100">
+
+                            <img src={ruta + item.profile_path} className="card-img-top " alt="..."/>
+                            <p className="small">
+                              {item.name}
+                              <br />
+                              <span className="small text-black">{item.character}</span> <br />
+                              <span className="small text-dark"><b>Popularidad: {item.popularity}</b></span>
+                            </p>
+                            <div className="card-footer">
+                                <Link to={rutaPel + item.id} href="#" className="btn btn-danger d-grid btn-sm">Peliculas</Link>
+                            </div>
+                          </div>
+                        </div>
+                    ) : null
+                ))}
             </div>
-    </div>
+        </section>
+
+        <section className="bg-black py-5 ">
+            <div className="container">
+                <h3 className="text-center text-white py-4">Producción</h3>
+                <div className="row row-cols-lg-6 m-2">
+                    {Array.isArray(dataproduccion) && dataproduccion.map((item, index) => (
+                        item.profile_path && item.profile_path !== "" ? (
+                            <div className="col-xs-6 col-sm-6 col-md-2 mb-4" key={index}>
+                            <div className="card resaltar text-center h-100 p-4">
+                                <p className="lead">
+                                {item.job}<br />
+                                <b> {item.name}</b><br />
+                                <b>{item.character}</b>
+                                </p>
+                            </div>
+                            </div>
+                        ) : null
+                    ))}
+                </div>
+            </div>
+        </section>
+                                         
+       
+    </>
   )
 }
+
 
 export default Detalles
