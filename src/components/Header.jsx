@@ -1,5 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import FiltroGenerosTv from "./FiltroGenerosTv";
+import FiltroGenerosCine from "./FiltroGenerosCine";
 
 const Header = () => {
   return (
@@ -15,28 +17,24 @@ const Header = () => {
           <Link to={"/inicio"} className="nav-link active" aria-current="page" href="#">inicio</Link>
         </li>
         <li className="nav-item">
-          <Link to={"/tendecias"} className="nav-link active" aria-current="page" href="#">Tendencias</Link>
+          <Link to={"/tendencias/recientes"} className="nav-link active" aria-current="page" href="#">Tendencias</Link>
         </li>
         <li className="nav-item dropdown">
-          <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Genero Tv
-          </a>
-          <ul className="dropdown-menu">
-            <li><a className="dropdown-item" href="#">Action</a></li>
-            <li><a className="dropdown-item" href="#">Another action</a></li>
-            <li><a className="dropdown-item" href="#">Something else here</a></li>
-          </ul>
-        </li>
-        <li className="nav-item dropdown">
-          <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Generos Cine
-          </a>
-          <ul className="dropdown-menu">
-            <li><a className="dropdown-item" href="#">Action</a></li>
-            <li><a className="dropdown-item" href="#">Another action</a></li>
-            <li><a className="dropdown-item" href="#">Something else here</a></li>
-          </ul>
-        </li>
+                    <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Generos Tv
+                    </a>
+                    <ul className="dropdown-menu">
+                       <FiltroGenerosTv/>
+                    </ul>
+                </li>
+                <li className="nav-item dropdown">
+                    <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Generos Cine
+                    </a>
+                    <ul className="dropdown-menu">
+                        <FiltroGenerosCine/>
+                    </ul>
+                </li>
         
       </ul>
       <form className="d-flex" role="search">
